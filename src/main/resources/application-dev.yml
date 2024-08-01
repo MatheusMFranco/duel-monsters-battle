@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver className: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/duelmonsterbattle
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+flyway.locations.filesystem: db/migration
+jwt:
+  secret: secret
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: 'health, prometheus'
