@@ -1,6 +1,7 @@
 package br.com.magalzim.duel_monsters_battle.config
 import br.com.magalzim.duel_monsters_battle.filter.JWTAuthenticationFilter
 import br.com.magalzim.duel_monsters_battle.filter.JWTLoginFilter
+import br.com.magalzim.duel_monsters_battle.model.UserRoleAuthority
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -33,6 +34,11 @@ class SecurityConfig (
                     .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+
+                    .requestMatchers(HttpMethod.POST, "/duelists").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/duelists").hasAuthority(UserRoleAuthority.DUELIST.name)
+                    .requestMatchers(HttpMethod.GET, "/duelists/{id}").hasAuthority(UserRoleAuthority.DUELIST.name)
+                    .requestMatchers(HttpMethod.DELETE, "/duelists/{id}").hasAuthority(UserRoleAuthority.EXODIA.name)
                     .anyRequest().authenticated()
             }
             .addFilterBefore(JWTLoginFilter(authenticationManager = configuration.authenticationManager, jwtConfig = jwtConfig), UsernamePasswordAuthenticationFilter().javaClass)
