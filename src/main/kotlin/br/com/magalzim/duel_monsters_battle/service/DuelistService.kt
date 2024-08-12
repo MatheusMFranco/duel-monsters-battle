@@ -9,6 +9,7 @@ import br.com.magalzim.duel_monsters_battle.mapper.DuelistViewMapper
 import br.com.magalzim.duel_monsters_battle.repository.DuelistRepository
 import br.com.magalzim.duel_monsters_battle.view.DuelistView
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class DuelistService(
@@ -19,14 +20,12 @@ class DuelistService(
 ) {
     fun findById(id: String?): Duelist {
         if (!id.isNullOrBlank()) {
-            return repository.getReferenceById(id)
+            return repository.findById(id).orElseThrow { NotFoundException(Duelist::class) }
         }
         throw NotFoundException(Duelist::class)
     }
 
-    fun find(id: String): DuelistView {
-        return duelistViewMapper.map(findById(id))
-    }
+    fun find(id: String) = duelistViewMapper.map(findById(id))
 
     fun add(dto: NewDuelistForm): DuelistView {
         val duelist = duelistFormMapper.map(dto)

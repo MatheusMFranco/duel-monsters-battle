@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class DuelistViewMapper: Mapper<Duelist, DuelistView> {
     override fun map(t: Duelist): DuelistView {
         return DuelistView(
-            id = t.id.toString(),
+            id = t.id,
             name = t.name,
             email = t.email,
             avatar = t.avatar

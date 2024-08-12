@@ -8,10 +8,10 @@ import java.util.UUID
 
 @Service
 class UserRoleService(private val repository: UserRoleRepository) {
-    fun save(duelist: UUID) {
+    fun save(duelist: String) {
         repository.save(UserRole(
             duelistId = duelist,
-            roleId = UserRoleAuthority.DUELIST.ordinal.toLong() + 1
+            roleId = 1
         ))
     }
 }

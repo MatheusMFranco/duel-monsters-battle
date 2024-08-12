@@ -25,9 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @SecurityRequirement(name="bearerAuth")
 class DuelistController(private val service: DuelistService) {
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: String): DuelistView {
-        return service.find(id)
-    }
+    fun find(@PathVariable id: String) = service.find(id)
 
     @PostMapping
     @Transactional
@@ -47,10 +45,10 @@ class DuelistController(private val service: DuelistService) {
         return ResponseEntity.ok(view)
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{email}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    fun delete(@PathVariable id: String) {
-        service.delete(id)
+    fun delete(@PathVariable email: String) {
+        service.delete(email)
     }
 }
