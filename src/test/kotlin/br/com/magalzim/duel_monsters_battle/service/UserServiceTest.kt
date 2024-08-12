@@ -5,7 +5,7 @@ import br.com.magalzim.duel_monsters_battle.repository.DuelistRepository
 import io.mockk.*
 import org.junit.jupiter.api.Test
 
-class UserRoleServiceTest {
+class UserServiceTest {
 
     val user = DuelistTest.build()
 

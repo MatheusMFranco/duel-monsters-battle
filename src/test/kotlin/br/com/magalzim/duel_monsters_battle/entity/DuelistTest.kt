@@ -1,10 +1,8 @@
 package br.com.magalzim.duel_monsters_battle.entity
 
-import java.util.UUID
-
 object DuelistTest {
     private fun create(name: String) = Duelist(
-        id = UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
+        id = "550e8400-e29b-41d4-a716-446655440000",
         name = name,
         email = "john.doe@example.com",
         avatar = "test.png",
