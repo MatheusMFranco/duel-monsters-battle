@@ -6,7 +6,10 @@ import br.com.magalzim.duel_monsters_battle.entity.DuelistTest
 import br.com.magalzim.duel_monsters_battle.entity.Role
 import br.com.magalzim.duel_monsters_battle.model.UserRoleAuthority
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -21,6 +24,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class ControllerTest: DatabaseContainerConfig() {
     @Autowired
     private lateinit var jwtConfig: JWTConfig
@@ -46,6 +50,15 @@ class ControllerTest: DatabaseContainerConfig() {
     }
 
     @Test
+    @Order(1)
+    fun `should return code 200 when call duelist with token`() {
+        mockMvc.get(DUELIST_RESOURCE.plus("/4877c970-4c45-4a3d-be3a-77d2f7846499")) {
+            headers { this.setBearerAuth(token.toString()) }
+        }.andExpect { status { isOk() } }
+    }
+
+    @Test
+    @Order(2)
     fun `should return code 201 when add duelist`() {
         val newAuthorJson = """
             {
@@ -62,6 +75,22 @@ class ControllerTest: DatabaseContainerConfig() {
     }
 
     @Test
+    @Order(3)
+    fun `should return code 200 when login`() {
+        val newTopicJson = """
+            {
+                "username": "john.does@example.com",
+                "password": "12345678"
+            }
+        """
+        mockMvc.perform(MockMvcRequestBuilders.post("/login")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(newTopicJson))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+    }
+
+    @Test
+    @Order(4)
     fun `should return code 200 when update author`() {
         val newAuthorJson = """
             {
@@ -80,32 +109,13 @@ class ControllerTest: DatabaseContainerConfig() {
     }
 
     @Test
-    fun `should return code 200 when login`() {
-        val newTopicJson = """
-            {
-                "username": "john.doe@example.com",
-                "password": "123456"
-            }
-        """
-        mockMvc.perform(MockMvcRequestBuilders.post("/login")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(newTopicJson))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-    }
-
-    @Test
+    @Order(5)
     fun `should return code 400 when call duelists without token`() {
         mockMvc.delete(DUELIST_RESOURCE.plus("/4877c970-4c45-4a3d-be3a-77d2f7846499")).andExpect { status { is4xxClientError() } }
     }
 
     @Test
-    fun `should return code 200 when call duelist with token`() {
-        mockMvc.get(DUELIST_RESOURCE.plus("/4877c970-4c45-4a3d-be3a-77d2f7846499")) {
-            headers { this.setBearerAuth(token.toString()) }
-        }.andExpect { status { isOk() } }
-    }
-
-    @Test
+    @Order(6)
     fun `should return code 204 when delete duelist`() {
         token = generateToken(UserRoleAuthority.EXODIA)
         mockMvc.delete(DUELIST_RESOURCE.plus("/4877c970-4c45-4a3d-be3a-77d2f7846499")) {
