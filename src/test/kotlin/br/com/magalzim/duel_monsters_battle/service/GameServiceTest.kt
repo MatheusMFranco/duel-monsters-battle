@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.Optional
 
-class DuelistServiceTest {
+class GameServiceTest {
 
     private val updatedDuelist = DuelistTest.updated()
     private val newDuelist = DuelistTest.build()
