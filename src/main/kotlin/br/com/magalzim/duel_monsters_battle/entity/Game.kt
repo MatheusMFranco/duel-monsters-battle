@@ -25,7 +25,7 @@ data class Game(
 
     @Column(nullable = false)
     @NotNull
-    val winner: String,
+    var winner: String,
 
     @Column(nullable = false)
     @NotNull
@@ -33,28 +33,28 @@ data class Game(
 
     @Column(nullable = false)
     @NotNull
-    val player1LifePoints: Int,
+    var player1LifePoints: Int,
 
     @Column(nullable = false)
     @NotNull
-    val player2LifePoints: Int,
+    var player2LifePoints: Int,
 
     @Column(nullable = false)
     @NotNull
-    val rounds: Int,
+    var rounds: Int,
 
     @Lob
     @Column(nullable = false)
-    val usedCardNames: String,
+    var usedCardNames: String,
 
     @Lob
     @Column(nullable = false)
-    val graveyardCardNames: String,
+    var graveyardCardNames: String,
 
     @Lob
     @Column(nullable = false)
-    val bannedCardNames: String,
+    var bannedCardNames: String,
 
     @Column(nullable = true)
-    val endTime: LocalDateTime? = null
+    var endTime: LocalDateTime? = null
 )
